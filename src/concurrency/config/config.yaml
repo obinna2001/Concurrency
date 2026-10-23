@@ -1,0 +1,12 @@
+env:
+  global:
+    batch_size: 100_000
+    root: ""
+    fetch_query: "SELECT statement_id, date, narration, amount, direction, balance FROM statement_clean.transactions_clean"
+  
+  database:
+    "host": "127.0.0.1"
+    "port": 3306,
+    "user": "root"
+    "database": "statement_clean"
+    "password": ""
