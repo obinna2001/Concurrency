@@ -1,18 +1,23 @@
 import csv
 import logging
 
-from ..utils.utils import connect_db
+from .import (
+    BATCH_SIZE,
+    FETCH_QUERY,
+    DATABASE_CONFIG,
+    ROOT,
+    connect_db
+)
 
 logger = logging.getLogger(__name__)
 
-FETCH_QUERY = """
-    SELECT statement_id, date, narration, amount, direction, balance
-    FROM statement_clean.transactions_clean
-"""
 
 def single_threaded_download_process():
     # connect to db
-    cursor = connect_db()
+    database_connection = connect_db(
+        config=DATABASE_CONFIG
+    )
+    cursor = database_connection.cursor(buffered=False)
     cursor.execute(FETCH_QUERY)
 
     batch_count = 0
@@ -50,8 +55,7 @@ def single_threaded_download_process():
             cursor.close()
 
             temp_file_path.replace(output_path)
+            
     finally:
-        if DATABASE_CONNECTION is not None:
-            DATABASE_CONNECTION.close()
-
+        database_connection.close()
         logging.info("Closing Database connection")

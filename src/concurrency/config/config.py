@@ -1,5 +1,5 @@
 import logging
-from typing import cast 
+from typing import cast, Any
 from pathlib import Path
 
 from omegaconf import OmegaConf
@@ -27,7 +27,7 @@ class Config:
     )
 
 
-def load_config():
+def load_config() -> dict[str, Any]:
     """Read, load, validate and store config file as a class object"""
     yaml_file_path: Path = Path(__file__).with_name("config.yaml")
 
@@ -48,11 +48,11 @@ def load_config():
         schema = OmegaConf.structured(Config)
         config = OmegaConf.merge(schema, yaml_config.env)
 
-        # convert config to a python object and return it
-        return cast(Config, OmegaConf.to_object(config))
+        # convert config to a python dictionary object and return it
+        return  cast(dict[str, Any], OmegaConf.to_container(config))
     
     except Exception:
         logger.exception("Error loading configuraion file")
         raise
 
-app_config: Config = load_config()
+app_config: dict[str, Any] = load_config()
