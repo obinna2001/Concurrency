@@ -11,7 +11,6 @@ from .import (
 
 logger = logging.getLogger(__name__)
 
-
 def single_threaded_download_process():
     # connect to db
     database_connection = connect_db(
@@ -55,7 +54,7 @@ def single_threaded_download_process():
             cursor.close()
 
             temp_file_path.replace(output_path)
-            
+
     finally:
         database_connection.close()
         logging.info("Closing Database connection")

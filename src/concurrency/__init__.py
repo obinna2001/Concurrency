@@ -1,2 +1,2 @@
-def main() -> None:
-    print("Hello from concurrency!")
+from .script.concurrent import multi_threaded_download_process
+from .script.single import single_threaded_download_process
