@@ -1,2 +1,3 @@
-from .script.concurrent import multi_threaded_download_process
-from .script.single import single_threaded_download_process
+"""Sequential and concurrent database exports."""
+
+from .cli import main as main

@@ -16,15 +16,16 @@ def single_threaded_download_process():
     database_connection = connect_db(
         config=DATABASE_CONFIG
     )
-    cursor = database_connection.cursor(buffered=False)
-    cursor.execute(FETCH_QUERY)
-
     batch_count = 0
     total_rows = 0
 
     output_path = ROOT / "data" / "transaction.csv"
     temp_file_path = output_path.with_suffix(".csv.part")
     try:
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        cursor = database_connection.cursor(buffered=False)
+        cursor.execute(FETCH_QUERY)
+
         with open(temp_file_path, "w", newline="", encoding="utf-8") as file:
             writer = csv.writer(file)
 
@@ -47,9 +48,6 @@ def single_threaded_download_process():
                 batch_count += 1
 
                 logger.info("%d rows downloaded successfully so far", total_rows)
-
-                if batch_count > 0:
-                    break
 
             cursor.close()
 

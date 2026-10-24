@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 @dataclass
 class DatabaseModel:
     """Connection and authentication settings for the MySQL database."""
-
+    
     host: str = field(
         metadata={
             "description": "The hostname or IP address of the MySQL server"
@@ -41,6 +41,6 @@ class GlobalModel:
         }
     )
     batch_size: int = field(
-        default=100_000, 
+        default=1000, 
         metadata={"description": "The number of database rows to fetch per batch"}
     )
